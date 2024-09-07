@@ -11,48 +11,48 @@ from system_for_tracking.models import (
 from rest_framework import serializers
 
 
-class AirportSerializer(serializers.Serializer):
+class AirportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airport
         fields = ("id", "name", "closest_big_city")
 
 
-class AirplaneTypeSerializer(serializers.Serializer):
+class AirplaneTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirplaneType
         fields = ("id", "name")
 
 
-class AirplaneSerializer(serializers.Serializer):
+class AirplaneSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airplane
         fields = ("id", "name", "row", "seat_in_row", "airplane_type")
 
 
-class RouteSerializer(serializers.Serializer):
+class RouteSerializer(serializers.ModelSerializer):
     model = Route
     fields = ("id", "source", "destination", "distance")
 
 
-class CrewSerializer(serializers.Serializer):
+class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
         fields = ("id", "first_name", "last_name")
 
 
-class FlightSerializer(serializers.Serializer):
+class FlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = ("id", "route", "airplane", "crew", "departure_time", "arrival_time")
 
 
-class OrderSerializer(serializers.Serializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ("id", "created_at", "user")
 
 
-class TicketSerializer(serializers.Serializer):
+class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ("id", "row", "seat", "flight", "order")

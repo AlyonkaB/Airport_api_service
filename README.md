@@ -11,6 +11,7 @@ cd Airport_api_service/
 python -m venv venv
 source venv/scripts/activate
 pip install -r requirements.txt
+python manage.py migrate
 python manage.py runserver
 ```
 

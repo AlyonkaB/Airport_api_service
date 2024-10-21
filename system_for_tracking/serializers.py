@@ -43,6 +43,11 @@ class RouteSerializer(serializers.ModelSerializer):
         model = Route
         fields = ("id", "source", "destination", "distance")
 
+    def validate(self, data):
+        if data['source'] == data['destination']:
+            raise serializers.ValidationError("Source and destination airports cannot be the same.")
+        return data
+
 
 class CrewSerializer(serializers.ModelSerializer):
     class Meta:

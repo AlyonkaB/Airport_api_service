@@ -17,7 +17,7 @@ from system_for_tracking.serializers import (
     CrewSerializer,
     FlightSerializer,
     OrderSerializer,
-    TicketSerializer
+    TicketSerializer, AirplaneListSerializer
 )
 
 
@@ -34,6 +34,12 @@ class AirplaneTypeViewSet(viewsets.ModelViewSet):
 class AirplaneViewSet(viewsets.ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
+
+    def get_serializer_class(self):
+        serializer = self.serializer_class
+        if self.action == "list":
+            return AirplaneListSerializer
+        return serializer
 
 
 class RouteViewSet(viewsets.ModelViewSet):

@@ -1,3 +1,7 @@
+from django.db import IntegrityError
+
+from rest_framework.validators import UniqueTogetherValidator
+
 from system_for_tracking.models import (
     Airport,
     AirplaneType,
@@ -24,9 +28,14 @@ class AirplaneTypeSerializer(serializers.ModelSerializer):
 
 
 class AirplaneSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Airplane
         fields = ("id", "name", "rows", "seats_in_row", "airplane_type")
+
+
+class AirplaneListSerializer(AirplaneSerializer):
+    airplane_type = serializers.StringRelatedField(many=False)
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -57,3 +66,16 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ("id", "row", "seat", "flight", "order")
+
+    def create(self, validated_data):
+        try:
+            return super().create(validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError("Ticket with this row, seat, and flight already exists.")
+
+    def update(self, instance, validated_data):
+        try:
+            return super().update(instance, validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError("Ticket with this row, seat, and flight already exists.")
+

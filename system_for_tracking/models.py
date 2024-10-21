@@ -13,6 +13,9 @@ class Airport(models.Model):
 class AirplaneType(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Airplane(models.Model):
     name = models.CharField(max_length=255)
@@ -72,6 +75,11 @@ class Ticket(models.Model):
     seat = models.IntegerField()
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name="tickets")
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="tickets")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['row', 'seat', 'flight'], name='unique_ticket')
+        ]
 
     def __str__(self):
         return f"{str(self.flight)} (seat: {self.seat}, row: {self.row})"

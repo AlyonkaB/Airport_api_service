@@ -37,6 +37,21 @@ class AirplaneSerializer(serializers.ModelSerializer):
 class AirplaneListSerializer(AirplaneSerializer):
     airplane_type = serializers.StringRelatedField(many=False)
 
+    class Meta:
+        model = Airplane
+        fields = ("id", "name", "airplane_type")
+
+
+class AirplaneDetailSerializer(AirplaneSerializer):
+    airplane_type = serializers.StringRelatedField(many=False)
+    total_seats = serializers.SerializerMethodField()
+    class Meta:
+        model = Airplane
+        fields = ("id", "name", "airplane_type", "rows", "seats_in_row", "total_seats")
+
+    def get_total_seats(self, obj):
+        return obj.rows * obj.seats_in_row
+
 
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:

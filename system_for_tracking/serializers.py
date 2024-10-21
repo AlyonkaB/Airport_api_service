@@ -49,6 +49,11 @@ class RouteSerializer(serializers.ModelSerializer):
         return data
 
 
+class RouteListDetailSerializer(RouteSerializer):
+    source = serializers.StringRelatedField()
+    destination = serializers.StringRelatedField()
+
+
 class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew

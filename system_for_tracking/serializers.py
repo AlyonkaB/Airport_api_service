@@ -81,6 +81,19 @@ class FlightSerializer(serializers.ModelSerializer):
         fields = ("id", "route", "airplane", "crew", "departure_time", "arrival_time")
 
 
+class FlightListSerializer(serializers.ModelSerializer):
+    route = serializers.StringRelatedField()
+    class Meta:
+        model = Flight
+        fields = ("id", "route", "departure_time", "arrival_time")
+
+
+class FlightDetailSerializer(FlightSerializer):
+    route = serializers.StringRelatedField()
+    airplane = serializers.StringRelatedField()
+    crew = serializers.StringRelatedField(many=True)
+
+
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
@@ -103,4 +116,3 @@ class TicketSerializer(serializers.ModelSerializer):
             return super().update(instance, validated_data)
         except IntegrityError:
             raise serializers.ValidationError("Ticket with this row, seat, and flight already exists.")
-

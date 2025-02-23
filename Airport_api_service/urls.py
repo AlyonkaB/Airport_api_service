@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include("system_for_tracking.urls", namespace="system_for_tracking")),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
+    path("auth/", include("authentication.urls", namespace="authentication")),
 ]
